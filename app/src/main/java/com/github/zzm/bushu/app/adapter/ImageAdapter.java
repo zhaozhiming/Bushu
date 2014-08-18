@@ -50,7 +50,7 @@ public class ImageAdapter extends BaseAdapter {
         textView.setText(books.get(position).getName());
 
         TextView borrowPeopleView = (TextView) gridView.findViewById(R.id.book_borrow_people);
-        borrowPeopleView.setText(books.get(position).getBorrowPeople());
+        borrowPeopleView.setText("borrowed: " + books.get(position).getBorrowPeople());
 
         TextView returnDaysView = (TextView) gridView.findViewById(R.id.book_return_days);
         DateTime returnDate = new DateTime(books.get(position).getReturnDate());

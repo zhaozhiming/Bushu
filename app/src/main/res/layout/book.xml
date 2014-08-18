@@ -19,7 +19,6 @@
             android:id="@+id/book_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@+id/label"
             android:layout_marginTop="5dp"
             android:textSize="15sp" >
     </TextView>
@@ -28,7 +27,6 @@
             android:id="@+id/book_borrow_people"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@+id/label"
             android:layout_marginTop="5dp"
             android:textSize="15sp" >
     </TextView>
@@ -37,7 +35,6 @@
             android:id="@+id/book_return_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@+id/label"
             android:layout_marginTop="5dp"
             android:textSize="15sp" >
     </TextView>
