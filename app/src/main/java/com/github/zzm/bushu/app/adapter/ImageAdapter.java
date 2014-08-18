@@ -41,9 +41,13 @@ public class ImageAdapter extends BaseAdapter {
         // get layout from book.xml
         View gridView = inflater.inflate(R.layout.book, null);
 
-        // set value into textview
+        // set value into text view
         TextView textView = (TextView) gridView.findViewById(R.id.grid_item_label);
         textView.setText(values[position]);
+
+        // set value into text view
+        TextView desView = (TextView) gridView.findViewById(R.id.grid_description_label);
+        desView.setText(values[position]);
 
         // set image based on selected text
         ImageView imageView = (ImageView) gridView
