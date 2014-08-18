@@ -1,4 +1,4 @@
-package com.github.zzm.bushu.app;
+package com.github.zzm.bushu.app.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -7,10 +7,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-
 import android.widget.GridView;
 import android.widget.Toast;
+import com.github.zzm.bushu.app.R;
 import com.github.zzm.bushu.app.adapter.ImageAdapter;
+import com.github.zzm.bushu.app.model.Book;
+import com.google.common.collect.Lists;
+import org.joda.time.DateTime;
+
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -21,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
-        gridView.setAdapter(new ImageAdapter(this, new String[]{"One", "Two", "Three", "Else"}));
+        gridView.setAdapter(new ImageAdapter(this, getData()));
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -32,6 +37,15 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    private List<Book> getData() {
+        List<Book> books = Lists.newArrayList();
+
+        books.add(new Book("Book1", "Tom", DateTime.now().plusDays(1).toDate()));
+        books.add(new Book("Book2", "Jessy", DateTime.now().plusDays(2).toDate()));
+        books.add(new Book("Book3", "Mary", DateTime.now().plusDays(3).toDate()));
+
+        return books;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -7,7 +7,7 @@
               android:layout_height="match_parent">
 
     <ImageView
-            android:id="@+id/grid_item_image"
+            android:id="@+id/book_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="10dp"
@@ -16,7 +16,7 @@
     </ImageView>
 
     <TextView
-            android:id="@+id/grid_item_label"
+            android:id="@+id/book_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@+id/label"
@@ -25,7 +25,16 @@
     </TextView>
 
     <TextView
-            android:id="@+id/grid_description_label"
+            android:id="@+id/book_borrow_people"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@+id/label"
+            android:layout_marginTop="5dp"
+            android:textSize="15sp" >
+    </TextView>
+
+    <TextView
+            android:id="@+id/book_return_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@+id/label"

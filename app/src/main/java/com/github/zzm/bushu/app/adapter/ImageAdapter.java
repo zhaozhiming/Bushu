@@ -5,22 +5,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.github.zzm.bushu.app.R;
+import com.github.zzm.bushu.app.model.Book;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+
+import java.util.List;
+
+import static java.lang.String.format;
 
 public class ImageAdapter extends BaseAdapter {
     private Context context;
-    private String[] values;
+    private List<Book> books;
 
-    public ImageAdapter(Context context, String[] values) {
+    public ImageAdapter(Context context, List<Book> books) {
         this.context = context;
-        this.values = values;
+        this.books = books;
     }
 
     @Override
     public int getCount() {
-        return values.length;
+        return books.size();
     }
 
     @Override
@@ -38,32 +44,18 @@ public class ImageAdapter extends BaseAdapter {
         if (convertView != null) return convertView;
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        // get layout from book.xml
         View gridView = inflater.inflate(R.layout.book, null);
 
-        // set value into text view
-        TextView textView = (TextView) gridView.findViewById(R.id.grid_item_label);
-        textView.setText(values[position]);
+        TextView textView = (TextView) gridView.findViewById(R.id.book_name);
+        textView.setText(books.get(position).getName());
 
-        // set value into text view
-        TextView desView = (TextView) gridView.findViewById(R.id.grid_description_label);
-        desView.setText(values[position]);
+        TextView borrowPeopleView = (TextView) gridView.findViewById(R.id.book_borrow_people);
+        borrowPeopleView.setText(books.get(position).getBorrowPeople());
 
-        // set image based on selected text
-        ImageView imageView = (ImageView) gridView
-                .findViewById(R.id.grid_item_image);
-
-        String mobile = values[position];
-
-        if (mobile.equals("One")) {
-            imageView.setImageResource(R.drawable.one_logo);
-        } else if (mobile.equals("Two")) {
-            imageView.setImageResource(R.drawable.two_logo);
-        } else if (mobile.equals("Three")) {
-            imageView.setImageResource(R.drawable.three_logo);
-        } else {
-            imageView.setImageResource(R.drawable.else_logo);
-        }
+        TextView returnDaysView = (TextView) gridView.findViewById(R.id.book_return_days);
+        DateTime returnDate = new DateTime(books.get(position).getReturnDate());
+        int days = Days.daysBetween(DateTime.now().withTimeAtStartOfDay(), returnDate.withTimeAtStartOfDay()).getDays();
+        returnDaysView.setText(format("after %d days return", days));
 
         return gridView;
     }
