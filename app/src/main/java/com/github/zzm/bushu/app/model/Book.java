@@ -1,5 +1,8 @@
 package com.github.zzm.bushu.app.model;
 
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+
 import java.util.Date;
 
 public class Book {
@@ -21,7 +24,8 @@ public class Book {
         return borrowPeople;
     }
 
-    public Date getReturnDate() {
-        return returnDate;
+    public int returnDays() {
+        return Days.daysBetween(DateTime.now().withTimeAtStartOfDay(),
+                new DateTime(returnDate).withTimeAtStartOfDay()).getDays();
     }
 }

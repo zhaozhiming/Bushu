@@ -8,18 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.github.zzm.bushu.app.R;
 import com.github.zzm.bushu.app.model.Book;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 
 import java.util.List;
 
 import static java.lang.String.format;
 
-public class ImageAdapter extends BaseAdapter {
+public class BooksAdapter extends BaseAdapter {
     private Context context;
     private List<Book> books;
 
-    public ImageAdapter(Context context, List<Book> books) {
+    public BooksAdapter(Context context, List<Book> books) {
         this.context = context;
         this.books = books;
     }
@@ -53,10 +51,9 @@ public class ImageAdapter extends BaseAdapter {
         borrowPeopleView.setText("borrowed: " + books.get(position).getBorrowPeople());
 
         TextView returnDaysView = (TextView) gridView.findViewById(R.id.book_return_days);
-        DateTime returnDate = new DateTime(books.get(position).getReturnDate());
-        int days = Days.daysBetween(DateTime.now().withTimeAtStartOfDay(), returnDate.withTimeAtStartOfDay()).getDays();
-        returnDaysView.setText(format("after %d days return", days));
+        returnDaysView.setText(format("after %d days return", books.get(position).returnDays()));
 
         return gridView;
     }
+
 }

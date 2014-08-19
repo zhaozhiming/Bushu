@@ -10,7 +10,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.Toast;
 import com.github.zzm.bushu.app.R;
-import com.github.zzm.bushu.app.adapter.ImageAdapter;
+import com.github.zzm.bushu.app.adapter.BooksAdapter;
 import com.github.zzm.bushu.app.model.Book;
 import com.google.common.collect.Lists;
 import org.joda.time.DateTime;
@@ -26,7 +26,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
-        gridView.setAdapter(new ImageAdapter(this, getData()));
+        gridView.setAdapter(new BooksAdapter(this, getData()));
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
             @Override
