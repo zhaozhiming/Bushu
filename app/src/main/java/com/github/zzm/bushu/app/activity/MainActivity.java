@@ -38,11 +38,7 @@ public class MainActivity extends ActionBarActivity {
 
     private List<Book> getData() {
         List<Book> books = Lists.newArrayList();
-
-        books.add(new Book("Book1", "Tom", DateTime.now().plusDays(1).toDate()));
-        books.add(new Book("Book2", "Jessy", DateTime.now().plusDays(2).toDate()));
-        books.add(new Book("Book3", "Mary", DateTime.now().plusDays(3).toDate()));
-
+        books.add(new Book("http_the_definitive_guide", "Tom", DateTime.now().plusDays(1).toDate()));
         return books;
     }
 
