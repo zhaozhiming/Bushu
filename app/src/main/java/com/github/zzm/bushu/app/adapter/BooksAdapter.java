@@ -56,10 +56,10 @@ public class BooksAdapter extends BaseAdapter {
         View gridView = inflater.inflate(R.layout.book, null);
 
         Book book = books.get(position);
-        String bookName = book.getName();
+        String bookName = book.getEnName();
 
         TextView textView = (TextView) gridView.findViewById(R.id.book_name);
-        textView.setText(bookName);
+        textView.setText(book.getZhName());
 
         TextView borrowPeopleView = (TextView) gridView.findViewById(R.id.book_borrow_people);
         borrowPeopleView.setText(format("borrowed: %s", book.getBorrowPeople()));
