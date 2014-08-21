@@ -67,10 +67,10 @@ public class BooksAdapter extends BaseAdapter {
         returnDaysView.setText(format("after %d days return", book.returnDays()));
 
         File imageFile = getImageFile(bookName);
+        ImageView imageView = (ImageView) gridView.findViewById(R.id.book_image);
         if (imageFileEmpty(imageFile)) {
-            downloadImage(imageFile, bookName);
+            downloadImage(imageFile, bookName, imageView);
         } else {
-            ImageView imageView = (ImageView) gridView.findViewById(R.id.book_image);
             imageView.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
         }
 
@@ -83,11 +83,11 @@ public class BooksAdapter extends BaseAdapter {
         return imageFile;
     }
 
-    private void downloadImage(File imageFile, String bookName) {
+    private void downloadImage(File imageFile, String bookName, ImageView imageView) {
         if (networkOk()) {
             String url = format("%s%s/%s.png", STORAGE_BASE_URL, getScreenDensity(), bookName);
             Log.d("DEBUG", format("url: %s", url));
-            new DownloadTask(context, imageFile).execute(url);
+            new DownloadTask(imageFile, imageView).execute(url);
         }
     }
 

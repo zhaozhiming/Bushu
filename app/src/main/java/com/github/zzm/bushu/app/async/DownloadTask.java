@@ -1,24 +1,20 @@
 package com.github.zzm.bushu.app.async;
 
-import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
-import com.github.zzm.bushu.app.R;
 
 import java.io.*;
 import java.net.URL;
 
 public class DownloadTask extends AsyncTask<String, Void, String> {
-    private Context context;
     private File imageFile;
+    private ImageView imageView;
 
-    public DownloadTask(Context context, File imageFile) {
-        this.context = context;
+    public DownloadTask(File imageFile, ImageView imageView) {
         this.imageFile = imageFile;
+        this.imageView = imageView;
     }
 
     @Override
@@ -29,10 +25,6 @@ public class DownloadTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String ignore) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View gridView = inflater.inflate(R.layout.book, null);
-
-        ImageView imageView = (ImageView) gridView.findViewById(R.id.book_image);
         imageView.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
     }
 
