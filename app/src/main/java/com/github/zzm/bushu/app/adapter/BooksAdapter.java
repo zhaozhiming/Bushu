@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.github.zzm.bushu.app.R;
+import com.github.zzm.bushu.app.async.DownloadTask;
 import com.github.zzm.bushu.app.model.Book;
 
 import java.io.*;
@@ -85,7 +86,7 @@ public class BooksAdapter extends BaseAdapter {
         if (networkOk() && imageFileEmpty(imageFile)) {
             String url = format("%s%s/%s.png", STORAGE_BASE_URL, getScreenDensity(), bookName);
             Log.d("DEBUG", format("url: %s", url));
-            new DownloadTask().execute(url, bookName);
+            new DownloadTask(context).execute(url, bookName);
         }
     }
 
@@ -114,49 +115,5 @@ public class BooksAdapter extends BaseAdapter {
             default:
                 return MDPI;
         }
-    }
-
-    private class DownloadTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-            storageImage(urls[0], urls[1]);
-            return urls[1];
-        }
-
-        @Override
-        protected void onPostExecute(String bookName) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View gridView = inflater.inflate(R.layout.book, null);
-
-            ImageView imageView = (ImageView) gridView.findViewById(R.id.book_image);
-            File imageFile = getImageFile(bookName);
-
-            imageView.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
-        }
-
-        private void storageImage(String url, String bookName) {
-            FileOutputStream outputStream;
-            try {
-                outputStream = context.openFileOutput(format("%s.png", bookName), Context.MODE_PRIVATE);
-                outputStream.write(getImageBytes(url));
-                outputStream.close();
-            } catch (Exception e) {
-                Log.e("ERROR", "storage image error:" + e.getMessage());
-            }
-        }
-
-        private byte[] getImageBytes(String url) throws IOException {
-            InputStream in = new BufferedInputStream(new URL(url).openStream());
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            byte[] buf = new byte[1024];
-            int n;
-            while (-1 != (n = in.read(buf))) {
-                out.write(buf, 0, n);
-            }
-            out.close();
-            in.close();
-            return out.toByteArray();
-        }
-
     }
 }
