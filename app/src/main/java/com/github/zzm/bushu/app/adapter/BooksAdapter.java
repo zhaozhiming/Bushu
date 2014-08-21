@@ -1,6 +1,7 @@
 package com.github.zzm.bushu.app.adapter;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.github.zzm.bushu.app.R;
 import com.github.zzm.bushu.app.async.DownloadTask;
@@ -68,7 +70,14 @@ public class BooksAdapter extends BaseAdapter {
         TextView returnDaysView = (TextView) gridView.findViewById(R.id.book_return_days);
         returnDaysView.setText(format("after %d days return", book.returnDays()));
 
-        downloadImage(getImageFile(bookName), bookName);
+        File imageFile = getImageFile(bookName);
+        if (imageFileEmpty(imageFile)) {
+            downloadImage(imageFile, bookName);
+        } else {
+            ImageView imageView = (ImageView) gridView.findViewById(R.id.book_image);
+            imageView.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
+        }
+
         return gridView;
     }
 
@@ -79,7 +88,7 @@ public class BooksAdapter extends BaseAdapter {
     }
 
     private void downloadImage(File imageFile, String bookName) {
-        if (networkOk() && imageFileEmpty(imageFile)) {
+        if (networkOk()) {
             String url = format("%s%s/%s.png", STORAGE_BASE_URL, getScreenDensity(), bookName);
             Log.d("DEBUG", format("url: %s", url));
             new DownloadTask(context, imageFile).execute(url);
