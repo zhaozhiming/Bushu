@@ -16,6 +16,7 @@ import com.github.zzm.bushu.app.R;
 import com.github.zzm.bushu.app.async.DownloadTask;
 import com.github.zzm.bushu.app.model.Book;
 import com.github.zzm.bushu.app.model.Density;
+import com.github.zzm.bushu.app.model.LogTag;
 
 import java.io.File;
 import java.util.List;
@@ -79,14 +80,14 @@ public class BooksAdapter extends BaseAdapter {
 
     private File getImageFile(String bookName) {
         File imageFile = new File(context.getFilesDir(), bookName + ".png");
-        Log.d("DEBUG", "file path: " + imageFile.getAbsolutePath());
+        Log.d(LogTag.BooksAdapter.name(), "file path: " + imageFile.getAbsolutePath());
         return imageFile;
     }
 
     private void downloadImage(File imageFile, String bookName, ImageView imageView) {
         if (networkOk()) {
             String url = format("%s%s/%s.png", STORAGE_BASE_URL, getScreenDensity(), bookName);
-            Log.d("DEBUG", format("url: %s", url));
+            Log.d(LogTag.BooksAdapter.name(), format("url: %s", url));
             new DownloadTask(imageFile, imageView).execute(url);
         }
     }

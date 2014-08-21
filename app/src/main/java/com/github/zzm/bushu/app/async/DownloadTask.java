@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
+import com.github.zzm.bushu.app.model.LogTag;
 
 import java.io.*;
 import java.net.URL;
@@ -35,7 +36,7 @@ public class DownloadTask extends AsyncTask<String, Void, String> {
             outputStream.write(getImageBytes(url));
             outputStream.close();
         } catch (Exception e) {
-            Log.e("ERROR", "storage image error:" + e.getMessage());
+            Log.e(LogTag.DownloadTask.name(), "storage image error:" + e.getMessage());
         }
     }
 
