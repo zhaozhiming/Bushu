@@ -1,24 +1,20 @@
 package com.github.zzm.bushu.app.adapter;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import com.github.zzm.bushu.app.R;
 import com.github.zzm.bushu.app.async.DownloadTask;
 import com.github.zzm.bushu.app.model.Book;
 
-import java.io.*;
-import java.net.URL;
+import java.io.File;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -86,7 +82,7 @@ public class BooksAdapter extends BaseAdapter {
         if (networkOk() && imageFileEmpty(imageFile)) {
             String url = format("%s%s/%s.png", STORAGE_BASE_URL, getScreenDensity(), bookName);
             Log.d("DEBUG", format("url: %s", url));
-            new DownloadTask(context).execute(url, bookName);
+            new DownloadTask(context, imageFile).execute(url);
         }
     }
 

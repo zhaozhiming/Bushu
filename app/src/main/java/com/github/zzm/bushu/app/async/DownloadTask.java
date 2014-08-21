@@ -12,42 +12,34 @@ import com.github.zzm.bushu.app.R;
 import java.io.*;
 import java.net.URL;
 
-import static java.lang.String.format;
-
 public class DownloadTask extends AsyncTask<String, Void, String> {
     private Context context;
+    private File imageFile;
 
-    public DownloadTask(Context context) {
+    public DownloadTask(Context context, File imageFile) {
         this.context = context;
+        this.imageFile = imageFile;
     }
 
     @Override
     protected String doInBackground(String... urls) {
-        storageImage(urls[0], urls[1]);
-        return urls[1];
+        storageImage(urls[0]);
+        return null;
     }
 
     @Override
-    protected void onPostExecute(String bookName) {
+    protected void onPostExecute(String ignore) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View gridView = inflater.inflate(R.layout.book, null);
 
         ImageView imageView = (ImageView) gridView.findViewById(R.id.book_image);
-        File imageFile = getImageFile(bookName);
-
         imageView.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
     }
 
-    private File getImageFile(String bookName) {
-        File imageFile = new File(context.getFilesDir(), bookName + ".png");
-        Log.d("DEBUG", "file path: " + imageFile.getAbsolutePath());
-        return imageFile;
-    }
-
-    private void storageImage(String url, String bookName) {
+    private void storageImage(String url) {
         FileOutputStream outputStream;
         try {
-            outputStream = context.openFileOutput(format("%s.png", bookName), Context.MODE_PRIVATE);
+            outputStream = new FileOutputStream(imageFile);
             outputStream.write(getImageBytes(url));
             outputStream.close();
         } catch (Exception e) {
