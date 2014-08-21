@@ -1,8 +1,10 @@
 package com.github.zzm.bushu.app.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,52 +71,32 @@ public class BooksAdapter extends BaseAdapter {
         TextView returnDaysView = (TextView) gridView.findViewById(R.id.book_return_days);
         returnDaysView.setText(format("after %d days return", book.returnDays()));
 
-        ImageView imageView = (ImageView) gridView.findViewById(R.id.book_image);
-        Bitmap myBitmap = getImageBitmap(bookName);
-
-        imageView.setImageBitmap(myBitmap);
-
+        downloadImage(getImageFile(bookName), bookName);
         return gridView;
     }
 
-    private Bitmap getImageBitmap(String bookName) {
+    private File getImageFile(String bookName) {
         File imageFile = new File(context.getFilesDir(), bookName + ".png");
-        Log.v(this.getClass().getName(), "file path: " + imageFile.getAbsolutePath());
-        Bitmap myBitmap;
-        if (imageFile.exists() && imageFile.length() != 0) {
-            myBitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-        } else {
-            myBitmap = BitmapFactory.decodeFile(storageImage(bookName).getAbsolutePath());
-        }
-        return myBitmap;
+        Log.d("DEBUG", "file path: " + imageFile.getAbsolutePath());
+        return imageFile;
     }
 
-    private File storageImage(String bookName) {
-        FileOutputStream outputStream;
-        try {
-            outputStream = context.openFileOutput(format("%s.png", bookName), Context.MODE_PRIVATE);
-            outputStream.write(getImageBytes(bookName));
-            outputStream.close();
-        } catch (Exception e) {
-            Log.e(this.getClass().getName(), "storage image error:" + e.getMessage());
-            e.printStackTrace();
+    private void downloadImage(File imageFile, String bookName) {
+        if (networkOk() && imageFileEmpty(imageFile)) {
+            String url = format("%s%s/%s.png", STORAGE_BASE_URL, getScreenDensity(), bookName);
+            Log.d("DEBUG", format("url: %s", url));
+            new DownloadTask().execute(url, bookName);
         }
-        return new File(context.getFilesDir(), format("%s.png", bookName));
     }
 
-    private byte[] getImageBytes(String bookName) throws IOException {
-        String url = format("%s%s/%s.png", STORAGE_BASE_URL, getScreenDensity(), bookName);
-        Log.v(this.getClass().getName(), format("url: %s", url));
-        InputStream in = new BufferedInputStream(new URL(url).openStream());
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] buf = new byte[1024];
-        int n;
-        while (-1 != (n = in.read(buf))) {
-            out.write(buf, 0, n);
-        }
-        out.close();
-        in.close();
-        return out.toByteArray();
+    private boolean imageFileEmpty(File imageFile) {
+        return !imageFile.exists() || imageFile.length() == 0;
+    }
+
+    private boolean networkOk() {
+        ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 
     private String getScreenDensity() {
@@ -132,5 +114,49 @@ public class BooksAdapter extends BaseAdapter {
             default:
                 return MDPI;
         }
+    }
+
+    private class DownloadTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... urls) {
+            storageImage(urls[0], urls[1]);
+            return urls[1];
+        }
+
+        @Override
+        protected void onPostExecute(String bookName) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View gridView = inflater.inflate(R.layout.book, null);
+
+            ImageView imageView = (ImageView) gridView.findViewById(R.id.book_image);
+            File imageFile = getImageFile(bookName);
+
+            imageView.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
+        }
+
+        private void storageImage(String url, String bookName) {
+            FileOutputStream outputStream;
+            try {
+                outputStream = context.openFileOutput(format("%s.png", bookName), Context.MODE_PRIVATE);
+                outputStream.write(getImageBytes(url));
+                outputStream.close();
+            } catch (Exception e) {
+                Log.e("ERROR", "storage image error:" + e.getMessage());
+            }
+        }
+
+        private byte[] getImageBytes(String url) throws IOException {
+            InputStream in = new BufferedInputStream(new URL(url).openStream());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            byte[] buf = new byte[1024];
+            int n;
+            while (-1 != (n = in.read(buf))) {
+                out.write(buf, 0, n);
+            }
+            out.close();
+            in.close();
+            return out.toByteArray();
+        }
+
     }
 }
