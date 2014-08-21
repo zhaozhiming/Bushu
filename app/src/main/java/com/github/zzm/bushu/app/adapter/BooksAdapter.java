@@ -70,7 +70,7 @@ public class BooksAdapter extends BaseAdapter {
         File imageFile = getImageFile(bookName);
         ImageView imageView = (ImageView) gridView.findViewById(R.id.book_image);
         if (imageFileEmpty(imageFile)) {
-            downloadImage(imageFile, bookName, imageView);
+            downloadImage(bookName, imageView);
         } else {
             imageView.setImageBitmap(BitmapFactory.decodeFile(imageFile.getAbsolutePath()));
         }
@@ -84,11 +84,11 @@ public class BooksAdapter extends BaseAdapter {
         return imageFile;
     }
 
-    private void downloadImage(File imageFile, String bookName, ImageView imageView) {
+    private void downloadImage(String bookName, ImageView imageView) {
         if (networkOk()) {
             String url = format("%s%s/%s.png", STORAGE_BASE_URL, getScreenDensity(), bookName);
             Log.d(LogTag.BooksAdapter.name(), format("url: %s", url));
-            new DownloadTask(imageFile, imageView).execute(url);
+            new DownloadTask(getImageFile(bookName), imageView).execute(url);
         }
     }
 
