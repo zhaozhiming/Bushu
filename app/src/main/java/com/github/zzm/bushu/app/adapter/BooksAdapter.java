@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.github.zzm.bushu.app.R;
 import com.github.zzm.bushu.app.async.DownloadTask;
 import com.github.zzm.bushu.app.model.Book;
+import com.github.zzm.bushu.app.model.Density;
 
 import java.io.File;
 import java.util.List;
@@ -23,11 +24,6 @@ import static java.lang.String.format;
 
 public class BooksAdapter extends BaseAdapter {
     private static final String STORAGE_BASE_URL = "http://depblog-dpdomain.stor.sinaapp.com/";
-    private static final String LDPI = "ldpi";
-    private static final String MDPI = "mdpi";
-    private static final String HDPI = "hdpi";
-    private static final String XHDPI = "xhdpi";
-    private static final String XXHDPI = "xxhdpi";
     private Context context;
     private List<Book> books;
 
@@ -108,17 +104,17 @@ public class BooksAdapter extends BaseAdapter {
     private String getScreenDensity() {
         switch (context.getResources().getDisplayMetrics().densityDpi) {
             case DisplayMetrics.DENSITY_LOW:
-                return LDPI;
+                return Density.LDPI.name().toLowerCase();
             case DisplayMetrics.DENSITY_MEDIUM:
-                return MDPI;
+                return Density.MDPI.name().toLowerCase();
             case DisplayMetrics.DENSITY_HIGH:
-                return HDPI;
+                return Density.HDPI.name().toLowerCase();
             case DisplayMetrics.DENSITY_XHIGH:
-                return XHDPI;
+                return Density.XHDPI.name().toLowerCase();
             case DisplayMetrics.DENSITY_XXHIGH:
-                return XXHDPI;
+                return Density.XXHDPI.name().toLowerCase();
             default:
-                return MDPI;
+                return Density.HDPI.name().toLowerCase();
         }
     }
 }
