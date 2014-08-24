@@ -53,6 +53,8 @@ public class MainActivity extends ActionBarActivity {
             thumbnail.setExternalUsage(true);
             card.addCardThumbnail(thumbnail);
 
+            card.setClickable(true);
+
             cards.add(card);
         }
         return cards;
@@ -60,6 +62,7 @@ public class MainActivity extends ActionBarActivity {
 
     private List<Book> getData() {
         List<Book> books = Lists.newArrayList();
+        books.add(new Book("seven_languages_in_seven_weeks", "七周七语言", "Mary", DateTime.now().plusDays(2).toDate()));
         books.add(new Book("http_the_definitive_guide", "HTTP权威指南", "Tom", DateTime.now().plusDays(1).toDate()));
         return books;
     }
