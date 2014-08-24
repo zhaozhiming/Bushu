@@ -24,7 +24,7 @@ import java.util.List;
 import static java.lang.String.format;
 
 public class BooksAdapter extends BaseAdapter {
-    private static final String STORAGE_BASE_URL = "http://depblog-dpdomain.stor.sinaapp.com/";
+    public static final String STORAGE_BASE_URL = "http://depblog-dpdomain.stor.sinaapp.com/";
     private Context context;
     private List<Book> books;
 
@@ -102,7 +102,7 @@ public class BooksAdapter extends BaseAdapter {
         return (networkInfo != null && networkInfo.isConnected());
     }
 
-    private String getScreenDensity() {
+    public String getScreenDensity() {
         switch (context.getResources().getDisplayMetrics().densityDpi) {
             case DisplayMetrics.DENSITY_LOW:
                 return Density.LDPI.name().toLowerCase();
