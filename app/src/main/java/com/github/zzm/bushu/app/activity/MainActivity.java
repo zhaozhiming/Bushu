@@ -7,12 +7,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
 import android.widget.Toast;
 import com.github.zzm.bushu.app.R;
-import com.github.zzm.bushu.app.adapter.BooksAdapter;
 import com.github.zzm.bushu.app.model.Book;
 import com.google.common.collect.Lists;
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
+import it.gmariotti.cardslib.library.internal.CardHeader;
+import it.gmariotti.cardslib.library.view.CardGridView;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -25,8 +27,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        GridView gridView = (GridView) findViewById(R.id.gridView);
-        gridView.setAdapter(new BooksAdapter(this, getData()));
+//        GridView gridView = (GridView) findViewById(R.id.gridView);
+//        gridView.setAdapter(new BooksAdapter(this, getData()));
+//
+        CardGridView gridView = (CardGridView) findViewById(R.id.books_card_grid_view);
+        gridView.setAdapter(new CardGridArrayAdapter(getApplicationContext(), createCards()));
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -34,6 +39,20 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private List<Card> createCards() {
+        List<Card> cards = Lists.newArrayList();
+        List<Book> books = getData();
+        for (Book book : books) {
+            Card card = new Card(getApplicationContext());
+            CardHeader header = new CardHeader(getApplicationContext(), R.layout.base_header_layout);
+            header.setTitle(book.getZhName());
+
+            card.addCardHeader(header);
+            cards.add(card);
+        }
+        return cards;
     }
 
     private List<Book> getData() {
