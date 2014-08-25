@@ -3,9 +3,10 @@ package com.github.zzm.bushu.app.model;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Book {
+public class Book implements Serializable {
     private String enName;
     private String zhName;
     private String borrowPeople;
