@@ -7,10 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.github.zzm.bushu.app.R;
 import com.github.zzm.bushu.app.card.BookCard;
+import com.github.zzm.bushu.app.card.BookDetailCard;
 import com.github.zzm.bushu.app.model.Book;
 import com.github.zzm.bushu.app.model.LogTag;
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.view.CardView;
 
 public class BookDetailActivity extends ActionBarActivity {
@@ -21,12 +20,10 @@ public class BookDetailActivity extends ActionBarActivity {
         Book book = (Book) getIntent().getSerializableExtra(BookCard.EXTRA_MESSAGE);
         Log.d(LogTag.BookDetailActivity.name(), "book name:" + book.getEnName());
 
-        Card card = new Card(getApplicationContext());
-        CardHeader header = new CardHeader(getApplicationContext());
-        header.setTitle(book.getZhName());
-        card.addCardHeader(header);
+        BookDetailCard card = new BookDetailCard(getApplicationContext(), book);
+        card.init();
 
-        CardView cardView = (CardView) findViewById(R.id.book_detail);
+        CardView cardView = (CardView) findViewById(R.id.book_detail_card_view);
         cardView.setCard(card);
     }
 
