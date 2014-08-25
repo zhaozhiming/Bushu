@@ -4,10 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
 import com.github.zzm.bushu.app.R;
 import com.github.zzm.bushu.app.card.BookCard;
 import com.github.zzm.bushu.app.model.Book;
@@ -29,13 +25,6 @@ public class MainActivity extends ActionBarActivity {
 
         CardGridView gridView = (CardGridView) findViewById(R.id.books_card_grid_view);
         gridView.setAdapter(new CardGridArrayAdapter(getApplicationContext(), createCards()));
-
-        gridView.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private List<Card> createCards() {
@@ -43,7 +32,7 @@ public class MainActivity extends ActionBarActivity {
         List<Book> books = getData();
         for (Book book : books) {
             BookCard card = new BookCard(getApplicationContext(), book);
-            card.createCard();
+            card.init();
             cards.add(card);
         }
         return cards;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.github.zzm.bushu.app.R;
 import com.github.zzm.bushu.app.model.Book;
 import it.gmariotti.cardslib.library.internal.Card;
@@ -17,7 +18,7 @@ public class BookCard extends Card {
         this.book = book;
     }
 
-    public void createCard() {
+    public void init() {
         CardHeader header = new CardHeader(getContext());
         header.setTitle(book.getZhName());
         this.addCardHeader(header);
@@ -25,6 +26,13 @@ public class BookCard extends Card {
         BookThumbnail thumbnail = new BookThumbnail(getContext(), book);
         thumbnail.setExternalUsage(true);
         this.addCardThumbnail(thumbnail);
+
+        setOnClickListener(new OnCardClickListener() {
+            @Override
+            public void onClick(Card card, View view) {
+                Toast.makeText(getContext(), "test", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
