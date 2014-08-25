@@ -13,7 +13,7 @@
             android:horizontalSpacing="10dp"
             android:stretchMode="columnWidth"
             android:gravity="center"
-            card:list_card_layout_resourceID="@layout/list_card_thumbnail_layout"
+            card:list_card_layout_resourceID="@layout/book_card_list_view"
             android:id="@+id/books_card_grid_view"/>
 
 </LinearLayout>

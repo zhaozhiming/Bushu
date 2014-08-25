@@ -9,12 +9,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 import com.github.zzm.bushu.app.R;
-import com.github.zzm.bushu.app.card.BookThumbnail;
+import com.github.zzm.bushu.app.card.BookCard;
 import com.github.zzm.bushu.app.model.Book;
 import com.google.common.collect.Lists;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
-import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.view.CardGridView;
 import org.joda.time.DateTime;
 
@@ -43,18 +42,8 @@ public class MainActivity extends ActionBarActivity {
         List<Card> cards = Lists.newArrayList();
         List<Book> books = getData();
         for (Book book : books) {
-            Card card = new Card(getApplicationContext());
-
-            CardHeader header = new CardHeader(getApplicationContext());
-            header.setTitle(book.getZhName());
-            card.addCardHeader(header);
-
-            BookThumbnail thumbnail = new BookThumbnail(getApplicationContext(), book);
-            thumbnail.setExternalUsage(true);
-            card.addCardThumbnail(thumbnail);
-
-            card.setClickable(true);
-
+            BookCard card = new BookCard(getApplicationContext(), book);
+            card.createCard();
             cards.add(card);
         }
         return cards;
