@@ -42,8 +42,6 @@ public class BookThumbnail extends CardThumbnail {
                 return Density.HDPI.name().toLowerCase();
             case DisplayMetrics.DENSITY_XHIGH:
                 return Density.XHDPI.name().toLowerCase();
-            case DisplayMetrics.DENSITY_XXHIGH:
-                return Density.XXHDPI.name().toLowerCase();
             default:
                 return Density.HDPI.name().toLowerCase();
         }
