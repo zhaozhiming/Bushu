@@ -13,7 +13,7 @@ public class BookDetailCard extends Card {
     private Book book;
 
     public BookDetailCard(Context context, Book book) {
-        super(context, R.layout.book_content_view);
+        super(context, R.layout.book_detail_content_view);
         this.book = book;
     }
 
@@ -29,10 +29,10 @@ public class BookDetailCard extends Card {
 
     @Override
     public void setupInnerViewElements(ViewGroup parent, View view) {
-        TextView title = (TextView) view.findViewById(R.id.book_content_inner_title);
+        TextView title = (TextView) view.findViewById(R.id.book_detail_borrower);
         title.setText("借:" + book.getBorrowPeople());
 
-        TextView subtitle = (TextView) view.findViewById(R.id.book_content_inner_subtitle);
+        TextView subtitle = (TextView) view.findViewById(R.id.book_detail_return_days);
         subtitle.setText("剩" + book.returnDays() + "天还");
     }
 
