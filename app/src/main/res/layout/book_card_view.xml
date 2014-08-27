@@ -8,7 +8,6 @@
 
     <!-- Card visible layout -->
     <LinearLayout
-            android:id="@+id/card_main_layout"
             style="@style/card.main_layout"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -32,8 +31,7 @@
         <!-- Main Content View -->
         <FrameLayout
                 android:id="@+id/card_main_content_layout"
-                style="@style/book.card.content_outer_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
     </LinearLayout>
